@@ -1,4 +1,8 @@
+fastapi
+uvicorn[standard]
 pandas
 scikit-learn
 matplotlib
 joblib
+numpy
+python-multipart

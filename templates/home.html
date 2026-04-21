@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Salary Predictor — ML-Powered</title>
+    <link rel="stylesheet" href="/static/css/styles.css" />
+</head>
+<body>
+
+<nav>
+    <a href="/" class="nav-logo">Salary<span>AI</span></a>
+    <div style="display:flex;gap:1.5rem;align-items:center;">
+        <a href="/home" class="nav-link">Home</a>
+        <a href="/predict" class="btn btn-primary" style="padding:0.5rem 1.25rem;font-size:0.9rem;">Try It Free</a>
+    </div>
+</nav>
+
+<section class="hero">
+    <div class="hero-badge">&#x2728; Machine Learning Powered</div>
+    <h1>Predict Your Salary Instantly</h1>
+    <p>
+        Enter your years of experience and age to get an accurate salary
+        estimate powered by a Random Forest model trained on real-world data.
+    </p>
+    <div class="hero-cta">
+        <a href="/predict" class="btn btn-primary">&#x1F4CA; Start Predicting</a>
+        <a href="#how-it-works" class="btn btn-outline">Learn More</a>
+    </div>
+</section>
+
+<section id="how-it-works" class="features">
+    <div class="feature-card">
+        <div class="feature-icon">&#x1F9E0;</div>
+        <h3>Random Forest Model</h3>
+        <p>Uses an ensemble of 50 decision trees for accurate, robust salary predictions.</p>
+    </div>
+    <div class="feature-card">
+        <div class="feature-icon">&#x26A1;</div>
+        <h3>Instant Results</h3>
+        <p>Get your salary estimate in milliseconds — no waiting, no sign-up required.</p>
+    </div>
+    <div class="feature-card">
+        <div class="feature-icon">&#x1F4CC;</div>
+        <h3>Two Simple Inputs</h3>
+        <p>Just your years of experience and age is all the model needs to generate a prediction.</p>
+    </div>
+    <div class="feature-card">
+        <div class="feature-icon">&#x1F4C8;</div>
+        <h3>Data-Driven</h3>
+        <p>Built on a curated dataset covering a wide range of experience levels and salaries.</p>
+    </div>
+</section>
+
+<footer>Built with FastAPI &amp; scikit-learn &mdash; Salary Predictor</footer>
+
+</body>
+</html>

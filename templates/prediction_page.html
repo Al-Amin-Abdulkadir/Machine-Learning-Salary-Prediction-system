@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Predict Salary — SalaryAI</title>
+    <link rel="stylesheet" href="/static/css/styles.css" />
+</head>
+<body>
+
+<nav>
+    <a href="/" class="nav-logo">Salary<span>AI</span></a>
+    <div style="display:flex;gap:1.5rem;align-items:center;">
+        <a href="/home" class="nav-link">Home</a>
+        <a href="/predict" class="btn btn-primary" style="padding:0.5rem 1.25rem;font-size:0.9rem;">Predict</a>
+    </div>
+</nav>
+
+<div class="predict-container">
+    <div class="predict-card">
+        <h2>&#x1F4CA; Salary Predictor</h2>
+        <p class="subtitle">Fill in your details below and get an instant salary estimate.</p>
+
+        <div class="form-group">
+            <label for="experience">Years of Experience</label>
+            <input
+                type="number"
+                id="experience"
+                placeholder="e.g. 5"
+                min="0"
+                max="50"
+                step="0.5"
+            />
+            <p class="form-hint">How many years have you been working in your field?</p>
+        </div>
+
+        <div class="form-group">
+            <label for="age">Age</label>
+            <input
+                type="number"
+                id="age"
+                placeholder="e.g. 28"
+                min="18"
+                max="80"
+                step="1"
+            />
+            <p class="form-hint">Your current age in years.</p>
+        </div>
+
+        <button class="btn btn-primary predict-btn" id="predict-btn" onclick="runPrediction()">
+            Predict My Salary
+        </button>
+
+        <div class="error-box" id="error-box"></div>
+
+        <div class="result-box" id="result-box">
+            <div class="result-header">&#x2705; Predicted Salary</div>
+            <div class="result-body">
+                <div class="result-salary" id="result-salary"></div>
+                <div class="result-meta" id="result-meta"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer>Built with FastAPI &amp; scikit-learn &mdash; Salary Predictor</footer>
+
+<script>
+async function runPrediction() {
+    const btn = document.getElementById("predict-btn");
+    const resultBox = document.getElementById("result-box");
+    const errorBox = document.getElementById("error-box");
+    const experience = document.getElementById("experience").value.trim();
+    const age = document.getElementById("age").value.trim();
+
+    errorBox.classList.remove("visible");
+    resultBox.classList.remove("visible");
+
+    if (!experience || !age) {
+        errorBox.textContent = "Please fill in both fields before predicting.";
+        errorBox.classList.add("visible");
+        return;
+    }
+
+    if (parseFloat(experience) < 0 || parseFloat(age) < 18) {
+        errorBox.textContent = "Please enter valid values (experience ≥ 0, age ≥ 18).";
+        errorBox.classList.add("visible");
+        return;
+    }
+
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span> Predicting...';
+
+    try {
+        const response = await fetch(
+            `/predict?experience=${encodeURIComponent(experience)}&age=${encodeURIComponent(age)}`,
+            { method: "POST" }
+        );
+
+        if (!response.ok) {
+            throw new Error("Prediction failed. Please try again.");
+        }
+
+        const data = await response.json();
+        const salary = data.predicted_salary;
+
+        document.getElementById("result-salary").textContent =
+            "$" + salary.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+        document.getElementById("result-meta").textContent =
+            `Based on ${experience} years of experience at age ${age}`;
+
+        resultBox.classList.add("visible");
+    } catch (err) {
+        errorBox.textContent = err.message || "Something went wrong. Please try again.";
+        errorBox.classList.add("visible");
+    } finally {
+        btn.disabled = false;
+        btn.innerHTML = "Predict My Salary";
+    }
+}
+
+// Allow Enter key to trigger prediction
+document.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") runPrediction();
+});
+</script>
+
+</body>
+</html>
